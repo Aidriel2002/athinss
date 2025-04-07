@@ -1,0 +1,125 @@
+.student-available-exam-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 240px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 240px); /* Adjust width to account for left margin */
+  max-height: 90vh; /* Set a max height relative to viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.student-exam-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.student-exam-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-exam-divider {
+  margin-top: 15px;
+  border-top: 2px solid #ddd;
+}
+
+/* Ensure body and parent elements allow scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent double scrollbars */
+}
+
+.student-available-exam-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.student-available-exam-container::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 4px;
+}
+
+.student-available-exam-container::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+.student-available-exam-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.student-exam-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.student-exam-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-exam-details {
+  flex-grow: 1;
+}
+
+.student-exam-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.student-exam-description {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.student-exam-action {
+  display: flex;
+  align-items: center;
+}
+
+.student-exam-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.student-exam-button.disabled {
+  background-color: #ddd;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.student-exam-button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.student-exam-button:disabled {
+  background-color: #ccc;
+}
+
+.student-exam-divider {
+  margin-top: 15px;
+  border-top: 2px solid #ddd;
+}

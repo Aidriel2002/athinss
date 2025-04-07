@@ -1,0 +1,55 @@
+/* AdminHome.css */
+.admin-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  text-align: center;
+  margin-left: 240px;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  justify-content: center;
+}
+
+.feature-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.feature-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.feature-description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

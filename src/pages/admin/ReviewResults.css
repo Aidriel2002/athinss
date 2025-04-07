@@ -1,0 +1,160 @@
+.review-results {
+  margin-left: 240px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background-color: #ccc;
+  margin-top: 10px;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-info span {
+  display: block;
+  color: #555;
+}
+
+.result-actions button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.view-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh; /* Limit the height */
+  overflow-y: auto; /* Enable scrolling */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Optional: Ensure padding does not affect scrolling */
+.dialog-content {
+  text-align: center;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.dialog-content h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.dialog-content p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.exam-details {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: justify;
+}
+
+.close-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+}
+
+.passed {
+  background-color: #d4edda;
+  border-left: 5px solid #28a745; 
+}
+
+.failed {
+  background-color: #f8d7da; 
+  border-left: 5px solid #dc3545; 
+}
+
+.result-info span {
+  font-weight: bold;
+}

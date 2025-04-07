@@ -1,0 +1,92 @@
+
+
+.manage-account-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 240px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 240px); /* Adjust width to account for left margin */
+  max-height: 90vh; /* Set a max height relative to viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+/* Heading */
+.manage-account-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Label */
+.manage-account-container label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Input Fields */
+.manage-account-container input[type="text"],
+.manage-account-container input[type="email"],
+.manage-account-container input[type="password"],
+.manage-account-container input[type="file"] {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* File input tweak */
+.manage-account-container input[type="file"] {
+  padding: 0.4rem;
+}
+
+/* Profile preview image */
+.profile-preview {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.profile-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+/* Button styling */
+.manage-account-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Disabled button */
+.manage-account-container button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+/* Button hover */
+.manage-account-container button:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+/* Optional: Make container scrollable on smaller screens */
+@media (max-height: 700px) {
+  .manage-account-container {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}

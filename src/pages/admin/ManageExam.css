@@ -1,0 +1,149 @@
+.manage-exams {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 240px; /* Added 240px left margin */
+  height: 100vh; /* Ensure it takes the full height of the viewport */
+  overflow: auto; /* Make the entire layout scrollable */
+}
+
+.exam-form-section {
+  width: 48%;
+  overflow-y: auto; /* Makes the exam form section scrollable if content overflows */
+  padding-right: 10px; /* Optional: Adds a bit of space between sections */
+}
+
+.question-list-section {
+  width: 48%;
+  padding-left: 15px;
+  overflow-y: auto; /* Makes the question list section scrollable if content overflows */
+}
+
+.exam-form-container {
+  padding: 15px;
+  max-height: calc(100vh - 40px); /* Prevents the form section from being too tall */
+  overflow-y: auto; /* Allows scrolling within the form section */
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  background-color: #e9f1fe;
+  outline: none;
+}
+
+textarea.input-field {
+  height: 100px;
+  resize: vertical;
+}
+
+.select-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.select-field:focus {
+  border-color: #007bff;
+  background-color: #e9f1fe;
+  outline: none;
+}
+
+.radio-group {
+  margin: 15px 0;
+}
+
+.radio-label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.radio-group input {
+  margin-right: 6px;
+}
+
+.points-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.points-input:focus {
+  border-color: #007bff;
+  background-color: #e9f1fe;
+  outline: none;
+}
+
+.btn, .btn-submit, .btn-edit, .btn-delete {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover, .btn-submit:hover, .btn-edit:hover, .btn-delete:hover {
+  background-color: #0056b3;
+}
+
+.form-divider {
+  border: 1px solid #ccc;
+  margin: 15px 0;
+}
+
+.question-list {
+  list-style: none;
+  padding: 0;
+  max-height: calc(100vh - 120px); /* Prevents the list section from being too tall */
+  overflow-y: auto; /* Allows scrolling within the question list */
+}
+
+.question-item {
+  margin: 8px 0;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.question-item button {
+  margin-left: 8px;
+}
+
+.question-item .btn-edit {
+  background-color: #28a745;
+}
+
+.question-item .btn-edit:hover {
+  background-color: #218838;
+}
+
+.question-item .btn-delete {
+  background-color: #dc3545;
+}
+
+.question-item .btn-delete:hover {
+  background-color: #c82333;
+}

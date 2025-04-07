@@ -1,0 +1,42 @@
+/* StudentHome.css */
+
+.student-home-container {
+    margin-top: 80px;
+    text-align: center;
+  }
+  
+  .student-home-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .student-home-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .button-container {
+    margin-top: 40px;
+  }
+  
+  .get-started-button {
+    background-color: #1976d2; /* Primary color */
+    color: white;
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .get-started-button:hover {
+    background-color: #1565c0; /* Darker shade on hover */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  .get-started-button:focus {
+    outline: none;
+  }
+  

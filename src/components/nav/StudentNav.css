@@ -1,0 +1,133 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.student-nav {
+  display: flex;
+  flex-direction: column;
+  background-color: #162468;
+  color: #fff;
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.student-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.student-nav-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-nav-title {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* Divider line between sections */
+.divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+/* Menu List */
+.menu-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  margin: 0;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  color: #fff;
+}
+
+.menu-button:hover {
+  background-color: #283780; /* Light blue on hover */
+}
+
+.menu-item.active .menu-button {
+  background-color: #283780; /* Active link background */
+}
+
+.menu-text {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.menu-item.active .menu-text {
+  font-weight: bold; /* Active item bold text */
+}
+
+.menu-button:focus {
+  outline: none;
+}
+
+/* Logout button at the bottom */
+.student-nav-logout {
+  margin-top: auto;
+  margin-bottom: 30px;
+}
+
+.logout-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Ensure the logout text is centered */
+  width: 100%;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.student-nav-logout .logout-menu-button {
+  background-color: #283780; /* Red logout button */
+  color: #fff;
+  font-weight: bold;
+}
+
+.student-nav-logout .logout-menu-button:hover {
+  background-color: #d9534f;
+}
+
+/* Main content (admin/home) area with margin-left to avoid sidebar overlap */
+.student-nav-container {
+  margin-left: 240px; /* Add left margin to content */
+  padding: 40px;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.existing-exams{
+  margin-left: 260px;
+}

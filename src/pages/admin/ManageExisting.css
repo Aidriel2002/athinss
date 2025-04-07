@@ -1,0 +1,73 @@
+.exam-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .exam-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .exam-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .exam-item h3 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .exam-item p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .btn-edit,
+  .btn-delete {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-edit {
+    background: #3498db;
+    color: #fff;
+  }
+  
+  .btn-edit:hover {
+    background: #2980b9;
+  }
+  
+  .btn-delete {
+    background: #e74c3c;
+    color: #fff;
+  }
+  
+  .btn-delete:hover {
+    background: #c0392b;
+  }
+  
+  @media (max-width: 600px) {
+    .exam-item {
+      padding: 15px;
+    }
+  
+    .btn-edit,
+    .btn-delete {
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
+  

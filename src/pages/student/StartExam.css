@@ -1,0 +1,92 @@
+.student-start-exam-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 240px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 240px); /* Adjust width to account for left margin */
+  max-height: 90vh; /* Set a max height relative to viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.student-start-exam-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.student-start-exam-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.student-start-exam-divider {
+  border-top: 2px solid #ccc;
+  margin: 20px 0;
+}
+
+.student-start-exam-info-text {
+  font-size: 1.1rem;
+  color: #d9534f;
+}
+
+.student-start-exam-question-container {
+  margin-bottom: 20px;
+}
+
+.student-start-exam-question-text {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.student-start-exam-radio-group {
+  margin-top: 10px;
+}
+
+.student-start-exam-radio-option {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.student-start-exam-essay-container,
+.student-start-exam-identification-container {
+  margin-top: 10px;
+}
+
+.student-start-exam-essay-container textarea,
+.student-start-exam-identification-container input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.student-start-exam-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.student-start-exam-button-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.student-start-exam-button-success:hover {
+  background-color: #218838;
+}
+
+.student-start-exam-button-secondary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.student-start-exam-button-secondary:hover {
+  background-color: #0056b3;
+}

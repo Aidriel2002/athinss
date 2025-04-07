@@ -1,0 +1,97 @@
+
+/* Admin Navigation Styles */
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  background-color: #162468;
+  color: #fff;
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  overflow: auto;
+}
+
+.logo-container {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.divider {
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+/* Nav List */
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #283780;
+}
+
+.nav-button:focus {
+  outline: none;
+}
+
+.nav-icon {
+  margin-right: 15px;
+  font-size: 1.5rem;
+}
+
+.nav-text {
+  font-size: 1rem;
+}
+
+/* Active Navigation Item Effect */
+.nav-item.active .nav-button {
+  background-color: #283780; /* Highlight active link */
+}
+
+.nav-item.active .nav-text {
+  font-weight: bold; /* Bold active text */
+}

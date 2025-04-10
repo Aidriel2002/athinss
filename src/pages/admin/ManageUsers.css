@@ -23,7 +23,9 @@ body {
 .manage-users__content {
   flex-grow: 1;
   padding: 20px;
-  margin-left: 250px; /* Sidebar width */
+  margin-top: 2%;
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 300px); /* Adjust width to account for left margin */
   font-size: 14px;
   overflow-y: auto;  /* Allows vertical scrolling */
   max-height: 100vh; /* Ensures the content does not overflow the page */
@@ -42,6 +44,14 @@ body {
   border-bottom: 2px solid #ddd;
   margin-bottom: 30px;
 }
+.manage-users__profile-pic img {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #2f45b3;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 
 .manage-users__table-container {
   overflow-x: auto;

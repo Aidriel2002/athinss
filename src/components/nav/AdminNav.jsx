@@ -1,4 +1,3 @@
-// src/components/AdminNav.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './AdminNav.css'; 
@@ -22,7 +21,7 @@ const AdminNav = () => {
       <div className="logo-container">
         <button className="logo-button" onClick={handleLogoClick}>
           <img src="logo-icon.png" alt="Athena Logo" className="logo-img" />
-          <h2 className="logo-text">Athena Institute</h2>
+          <h2 className="logo-text">Athins Online Exam</h2>
         </button>
       </div>
 
@@ -57,6 +56,13 @@ const AdminNav = () => {
           <button className="nav-button" onClick={() => navigate('/review-exam')}>
             <i className="nav-icon review-icon"></i>
             <span className="nav-text">Review Exam</span>
+          </button>
+        </li>
+        {/* New Register Staff menu */}
+        <li className={`nav-item ${activeNav === '/register-staff' ? 'active' : ''}`}>
+          <button className="nav-button" onClick={() => navigate('/register-staff')}>
+            <i className="nav-icon staff-icon"></i>
+            <span className="nav-text">Register Staff</span>
           </button>
         </li>
       </ul>

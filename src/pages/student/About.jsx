@@ -34,7 +34,9 @@ const About = () => {
           </p>
 
         </div>
+        <p className='footer'>© 2025 SPC INTERNS. All Rights Reserved.</p>
       </div>
+      
     </div>
     </>
   );

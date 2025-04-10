@@ -5,8 +5,9 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 240px; /* Adds 240px left margin to the exam container */
-  width: calc(100% - 240px); /* Adjust width to account for left margin */
+  margin-top: 3%;
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 300px); /* Adjust width to account for left margin */
   max-height: 90vh; /* Set a max height relative to viewport height */
   overflow-y: auto; /* Enable vertical scrolling */
 }
@@ -60,7 +61,7 @@
 }
 
 /* Button styling */
-.manage-account-container button {
+.manage-account-container .manage-update {
   width: 100%;
   padding: 0.75rem;
   background-color: #4f46e5;
@@ -73,15 +74,57 @@
 }
 
 /* Disabled button */
-.manage-account-container button:disabled {
+.manage-account-container .manage-update:disabled {
   background-color: #a5b4fc;
   cursor: not-allowed;
 }
 
 /* Button hover */
-.manage-account-container button:hover:not(:disabled) {
+.manage-account-container .manage-update:hover:not(:disabled) {
   background-color: #4338ca;
 }
+
+.profile-picture-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 1rem auto; /* centers it */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.delete-picture-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  z-index: 1; /* ensures it stays on top */
+}
+
+.delete-picture-btn:hover {
+  background-color: #ae3931;
+}
+
+
 
 /* Optional: Make container scrollable on smaller screens */
 @media (max-height: 700px) {

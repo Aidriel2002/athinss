@@ -18,6 +18,7 @@ const StartExam = () => {
   const [email, setEmail] = useState('');
   const [uid, setUid] = useState('');
   const [userStatus, setUserStatus] = useState('pending');
+  const [isFinalized, setIsFinalized] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -41,18 +42,26 @@ const StartExam = () => {
         );
         const resultSnapshot = await getDocs(resultQuery);
 
-        if (!resultSnapshot.empty) {
-          const resultData = resultSnapshot.docs[0].data();
-          if (resultData && resultData.score !== undefined) {
-            setScore(resultData.score);
-            setTotalPoints(resultData.totalPoints || 0);
-            setAnswers(resultData.answers || {});
-            setSubmitted(true);
-            setExamTaken(true);
-            setReviewMode(true);
-          } else {
-            setExamTaken(false);
-          }
+        const onReviewQuery = query(
+          collection(db, 'onReview'),
+          where('email', '==', email),
+          where('examId', '==', id)
+        );
+        const onReviewSnapshot = await getDocs(onReviewQuery);
+
+        if (!resultSnapshot.empty || !onReviewSnapshot.empty) {
+          const isReviewed = !resultSnapshot.empty;
+          const data = isReviewed
+            ? resultSnapshot.docs[0].data()
+            : onReviewSnapshot.docs[0].data();
+
+          setScore(data.score || 0);
+          setTotalPoints(data.totalPoints || 0);
+          setAnswers(data.answers || {});
+          setSubmitted(true);
+          setExamTaken(true);
+          setReviewMode(true);
+          setIsFinalized(isReviewed);
         } else {
           setExamTaken(false);
         }
@@ -110,7 +119,6 @@ const StartExam = () => {
       return;
     }
 
-    let totalScore = 0;
     let calculatedTotalPoints = 0;
     let nonEssayScore = 0;
     let hasEssay = false;
@@ -136,7 +144,7 @@ const StartExam = () => {
     setSubmitted(true);
 
     const resultData = {
-      uid, // 🔒 required for Firestore rule
+      uid,
       email,
       examId: id,
       score: nonEssayScore,
@@ -281,13 +289,13 @@ const StartExam = () => {
       {submitted ? (
         <div>
           <h3>
-            {exam?.questions.some((q) => q.type === 'essay') ? (
+            {exam?.questions.some((q) => q.type === 'essay') && !isFinalized ? (
               <span>
                 Partial Score: {score} / {totalPoints}
               </span>
             ) : (
               <span>
-                Your Score: {score} / {totalPoints}
+                Your Final Score: {score} / {totalPoints}
               </span>
             )}
           </h3>

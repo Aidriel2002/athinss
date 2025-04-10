@@ -13,6 +13,7 @@ import ManageExisting from './pages/admin/ManageExisting';
 import ManageAccount from './pages/student/ManageAccount';
 import ProtectedRoute from './components/ProtectedRoute';
 import ReviewExam from './pages/admin/ReviewExam';
+import RegisterStaff from './pages/admin/RegisterStaff';
 
 const App = () => {
   return (
@@ -74,6 +75,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <ReviewResult />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/register-staff"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <RegisterStaff />
             </ProtectedRoute>
           }
         />

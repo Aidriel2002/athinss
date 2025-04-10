@@ -8,7 +8,7 @@
   flex-direction: column;
   background-color: #162468;
   color: #fff;
-  width: 240px;
+  width: 260px;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -25,16 +25,14 @@
 }
 
 .student-nav-logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40px;
+  height: 40px;
 }
 
 .student-nav-title {
   margin-left: 10px;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #fff;
 }
 
@@ -42,14 +40,13 @@
 .divider {
   border: none;
   border-top: 1px solid #e0e0e0;
-  margin: 20px 0;
 }
 
 /* Menu List */
 .menu-list {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 60px 0 0 0;
 }
 
 .menu-item {
@@ -74,7 +71,7 @@
 }
 
 .menu-item.active .menu-button {
-  background-color: #283780; /* Active link background */
+  background-color: #2f45b3; /* Active link background */
 }
 
 .menu-text {

@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth, googleProvider, db } from '../services/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
+import { FaCircle } from 'react-icons/fa';
 
 const Login = () => {
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
   const [error, setError] = useState('');
-  const [registerError, setRegisterError] = useState('');
-  const [registerSuccess, setRegisterSuccess] = useState('');
+  const [resetEmail, setResetEmail] = useState('');
+  const [showResetForm, setShowResetForm] = useState(false);
   const navigate = useNavigate();
 
-  // Google Login (Student)
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -46,7 +45,6 @@ const Login = () => {
     }
   };
 
-  // Admin Login
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     try {
@@ -71,80 +69,94 @@ const Login = () => {
     }
   };
 
-  // Admin Registration (Temporary)
-  const handleAdminRegister = async (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
-    setRegisterError('');
-    setRegisterSuccess('');
     try {
-      const result = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-      const user = result.user;
-
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        email: user.email,
-        role: 'admin',
-      });
-
-      setRegisterSuccess('Admin account created successfully!');
-      setRegisterEmail('');
-      setRegisterPassword('');
+      await sendPasswordResetEmail(auth, resetEmail);
+      setError('Password reset email sent. Please check your inbox.');
+      setShowResetForm(false);
     } catch (err) {
-      console.error('Admin registration error:', err);
-      setRegisterError(err.message);
+      setError('Error sending password reset email. Please try again.');
     }
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Student Login</h2>
-      <button onClick={handleGoogleLogin}>Sign in with Google</button>
-
-      <h2 style={{ marginTop: '2rem' }}>Admin Login</h2>
-      <form onSubmit={handleAdminLogin}>
+    <div className="login-container">
+      
+    <div className="login-card">
+    
+      <h1 className="title"><FaCircle className="my-circle" color="#FF4C4C" />
+      <FaCircle className="my-circle"  color="#FFD93D" />
+      <FaCircle className="my-circle"  color="#08EC22" />
+      &nbsp;&nbsp;ATHENA INSTITUTE OF TRAINING AND ASSESSMENT INC.</h1>
+      {error && <p className="error-text">{error}</p>}
+      <div className="login-content">
+        <div className="leftpage">
+          <div className="left-content">
+            <h2>LOG IN</h2>
+            <form onSubmit={handleAdminLogin} className="admin-login-form">
+              <input
+                type="email"
+                placeholder="Enter your Username"
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Enter your Password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="login-button">LOG IN</button>
+            </form>
+            <p className="forgot-password" onClick={() => setShowResetForm(true)}>
+            Forgot Password?
+          </p>
+  
+            <div className="student-divider">-------- Login as Student --------</div>
+            <button className="google-button" onClick={handleGoogleLogin}>
+              <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google icon" />
+              Continue with Google
+            </button>
+          </div>
+  
+          
+          {showResetForm && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <span className="close-modal" onClick={() => setShowResetForm(false)}>&times;</span>
+      <form onSubmit={handleForgotPassword} className="reset-password-form">
+        <h3>Reset Password</h3>
         <input
           type="email"
-          placeholder="Admin Email"
-          value={adminEmail}
-          onChange={(e) => setAdminEmail(e.target.value)}
+          placeholder="Enter your email"
+          value={resetEmail}
+          onChange={(e) => setResetEmail(e.target.value)}
           required
         />
-        <br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={adminPassword}
-          onChange={(e) => setAdminPassword(e.target.value)}
-          required
-        />
-        <br />
-        <button type="submit">Login as Admin</button>
+        <button type="submit" className="reset-button">Send Reset Email</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <h3 style={{ marginTop: '2rem' }}>Register Admin (Temporary)</h3>
-      <form onSubmit={handleAdminRegister}>
-        <input
-          type="email"
-          placeholder="New Admin Email"
-          value={registerEmail}
-          onChange={(e) => setRegisterEmail(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="New Admin Password"
-          value={registerPassword}
-          onChange={(e) => setRegisterPassword(e.target.value)}
-          required
-        />
-        <br />
-        <button type="submit">Register Admin</button>
-      </form>
-      {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
-      {registerSuccess && <p style={{ color: 'green' }}>{registerSuccess}</p>}
     </div>
+  </div>
+)}
+
+        </div>
+
+        <div className="rightpage">
+          <img
+            src="logo.png"
+            alt="Athena Logo"
+            className="logo-athens"
+          />
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+
   );
 };
 

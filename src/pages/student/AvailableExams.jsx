@@ -63,19 +63,25 @@ const AvailableExams = () => {
 
   const handleRequestExam = async (examId) => {
     if (!currentUser || examRequests[examId]) return;  // Prevent re-requests for the same exam
-
+  
     // Mark exam as requested to prevent further clicks
     setExamRequests((prevState) => ({
       ...prevState,
       [examId]: true,
     }));
-
+  
     const userRef = doc(db, 'users', currentUser.uid);
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
     const firstName = userData?.firstName;
     const lastName = userData?.lastName;
-
+    let profilePicture = userData?.profilePicture; // Fetch the profile picture URL
+  
+    // Use a default image if profilePic is undefined
+    if (!profilePicture) {
+      profilePicture = ''; // Or provide a default image URL if available
+    }
+  
     // Check if first name and last name are missing
     if (!firstName || !lastName) {
       setErrorMessage('Please add your name first before starting the exam.');
@@ -88,7 +94,7 @@ const AvailableExams = () => {
       }));
       return;
     }
-
+  
     if (isExamApproved(examId)) {
       alert('You are already approved for this exam.');
       setExamRequests((prevState) => ({
@@ -97,7 +103,7 @@ const AvailableExams = () => {
       }));
       return;
     }
-
+  
     // Check if the student has already requested this exam
     const existingRequestQuery = query(
       collection(db, 'examUsers'),
@@ -114,9 +120,9 @@ const AvailableExams = () => {
       }));
       return;
     }
-
+  
     const contactNumber = userData?.contactNumber || 'N/A';
-
+  
     try {
       await addDoc(collection(db, 'examUsers'), {
         userId: currentUser.uid,
@@ -127,8 +133,9 @@ const AvailableExams = () => {
         lastName: lastName,  // Ensure last name is included
         email: currentUser.email,
         contactNumber: contactNumber,
+        profilePicture: profilePicture, // Include profile picture URL or default
       });
-
+  
       alert('You have requested this exam. Please wait for approval.');
     } catch (error) {
       console.error('Error requesting exam: ', error);
@@ -140,6 +147,7 @@ const AvailableExams = () => {
       }));
     }
   };
+  
 
   const handleStartExam = async (examId) => {
     if (!currentUser) return;

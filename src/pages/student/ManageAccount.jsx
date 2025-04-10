@@ -9,6 +9,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import './ManageAccount.css';
+import { FaTrash } from 'react-icons/fa';
 import StudentNav from '../../components/nav/StudentNav';
 
 const ManageAccount = () => {
@@ -79,6 +80,26 @@ const ManageAccount = () => {
       };
     });
   };
+  const handleDeletePicture = async () => {
+    if (!user) return;
+  
+    setProfilePicture('');
+    setIsLoading(true);
+  
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+        profilePicture: '',
+      });
+      alert('Profile picture removed');
+    } catch (error) {
+      console.error('Error deleting picture: ', error);
+      alert('Failed to delete profile picture');
+    }
+  
+    setIsLoading(false);
+  };
+  
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -124,19 +145,23 @@ const ManageAccount = () => {
         <h2>Manage Account</h2>
 
         {profilePicture && (
-          <div style={{
-            marginTop: '1rem',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <img
-              src={profilePicture}
-              alt="Profile Preview"
-              style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-            />
-          </div>
-        )}
+  <div className="profile-picture-container">
+    <img
+      src={profilePicture}
+      alt="Profile Preview"
+      className="profile-picture"
+    />
+    <button
+      onClick={handleDeletePicture}
+      disabled={isLoading}
+      className="delete-picture-btn"
+      title="Delete picture"
+    >
+      <FaTrash size={12} />
+    </button>
+  </div>
+)}
+
 
         {user ? (
           <div>
@@ -186,7 +211,7 @@ const ManageAccount = () => {
               <input type="file" accept="image/*" onChange={handleFileChange} />
             </div>
 
-            <button onClick={handleUpdateProfile} disabled={isLoading}>
+            <button className='manage-update' onClick={handleUpdateProfile} disabled={isLoading}>
               {isLoading ? 'Updating...' : 'Update Profile'}
             </button>
           </div>

@@ -1,3 +1,12 @@
+.existing-exams {
+  margin-top: 2%;
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 300px); /* Adjust width to account for left margin */
+  padding: 10px;
+}
+.sub-header {
+  margin-bottom: 2%;
+}
 .exam-list {
     list-style: none;
     padding: 0;

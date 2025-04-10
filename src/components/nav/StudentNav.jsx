@@ -9,8 +9,9 @@ const StudentNav = () => {
 
   const menuItems = [
     { text: 'Home', route: '/exams' },
-    { text: 'About', route: '/about' },
     { text: 'Manage Account', route: '/manage-account' },
+    { text: 'About', route: '/about' },
+    
   ];
 
   return (
@@ -21,7 +22,7 @@ const StudentNav = () => {
           alt="Athena Logo"
           className="student-nav-logo"
         />
-        <span className="student-nav-title">Athena Institute</span>
+        <span className="student-nav-title">Athins Online Exam</span>
       </div>
 
       <hr className="divider" />

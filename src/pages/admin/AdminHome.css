@@ -6,7 +6,9 @@
   height: 100vh;
   background-color: #f4f4f4;
   text-align: center;
-  margin-left: 240px;
+  margin-top: 3%;
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 300px); /* Adjust width to account for left margin */
 }
 
 .dashboard-title {

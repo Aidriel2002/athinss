@@ -29,26 +29,30 @@ const ManageUsers = () => {
   }, []);
 
   useEffect(() => {
-    if (!selectedExam) return;
+  if (!selectedExam) return;
 
-    const fetchUsers = async () => {
-      const usersCollection = collection(db, 'examUsers');
-      const usersSnapshot = await getDocs(usersCollection);
-      const usersList = usersSnapshot.docs
-        .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((user) => user.examId === selectedExam);
+  const fetchUsers = async () => {
+    const usersCollection = collection(db, 'examUsers');
+    const usersSnapshot = await getDocs(usersCollection);
+    const usersList = usersSnapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((user) => user.examId === selectedExam);
 
-      usersList.sort((a, b) => {
-        const dateA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
-        const dateB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
-        return dateB - dateA;
-      });
+    // Log user data to the console for debugging
+    console.log('Fetched Users:', usersList);
 
-      setUsers(usersList);
-    };
+    usersList.sort((a, b) => {
+      const dateA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+      const dateB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+      return dateB - dateA;
+    });
 
-    fetchUsers();
-  }, [selectedExam]);
+    setUsers(usersList);
+  };
+
+  fetchUsers();
+}, [selectedExam]);
+
 
   const indexOfLastUser = currentPage * rowsPerPage;
   const indexOfFirstUser = indexOfLastUser - rowsPerPage;
@@ -103,6 +107,7 @@ const ManageUsers = () => {
             <table className="manage-users__table">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Contact</th>
@@ -113,6 +118,20 @@ const ManageUsers = () => {
               <tbody>
                 {currentUsers.map((user) => (
                   <tr key={user.id}>
+                    <td className='manage-users__profile-pic'>
+  {user.profilePicture ? (
+    <img
+      src={user.profilePicture}
+      alt="Profile"
+    />
+  ) : (
+    <img
+      src="/temp.jpg"
+      alt="Default"
+    />
+  )}
+</td>
+
                     <td>{user.firstName}</td>
                     <td>{user.email}</td>
                     <td>{user.contactNumber}</td>

@@ -1,7 +1,9 @@
 .manage-exams {
   display: flex;
   justify-content: space-between;
-  margin-left: 240px; /* Added 240px left margin */
+  margin-top: 3%;
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 300px); /* Adjust width to account for left margin */
   height: 100vh; /* Ensure it takes the full height of the viewport */
   overflow: auto; /* Make the entire layout scrollable */
 }

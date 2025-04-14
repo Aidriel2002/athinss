@@ -12,6 +12,7 @@ const ManageExams = () => {
   const location = useLocation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [passThreshold, setPassThreshold] = useState(50); // <-- new state
   const [questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState('');
   const [questionType, setQuestionType] = useState('multiple-choice');
@@ -21,15 +22,16 @@ const ManageExams = () => {
   const [editingId, setEditingId] = useState(null);
   const [editingQuestionIndex, setEditingQuestionIndex] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
 
   // On Edit, populate the form with exam details and questions
   useEffect(() => {
     if (location.state?.exam) {
-      const { title, description, questions, id } = location.state.exam;
+      const { title, description, questions, passThreshold, id } = location.state.exam;
       setTitle(title || '');
       setDescription(description || '');
       setQuestions(questions || []);
+      setPassThreshold(passThreshold || 50);
       setEditingId(id);
     }
   }, [location.state]);
@@ -37,39 +39,41 @@ const ManageExams = () => {
   useEffect(() => {
     const checkAdminRole = async () => {
       const user = auth.currentUser;
-      console.log("Current User:", user); // Log the current user
       if (user) {
         try {
           const userDoc = await getDoc(doc(db, "users", user.uid));
-          console.log("User Document:", userDoc.data()); // Log the user document data
           if (userDoc.exists() && userDoc.data().role === "admin") {
             setIsAdmin(true);
-          } else {
-            console.log("Not an admin or user document does not exist.");
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
-      } else {
-        console.log("No user authenticated.");
       }
-      setLoading(false); // Set loading to false after checking role
+      setLoading(false);
     };
-
     checkAdminRole();
   }, []);
 
-  if (loading) return <p>Loading...</p>; // Display loading message while checking user role
+  if (loading) return <p>Loading...</p>;
   if (!isAdmin) return <p>Access denied. Admins only.</p>;
 
-  // Handle saving or updating the exam
   const handleAddOrUpdateExam = async () => {
     if (!title.trim()) {
       alert('Exam title is required.');
       return;
     }
 
-    const examData = { title, description, questions };
+    if (passThreshold < 0 || passThreshold > 100) {
+      alert('Passing score must be between 0 and 100.');
+      return;
+    }
+
+    const examData = {
+      title,
+      description,
+      passThreshold,
+      questions,
+    };
 
     if (editingId) {
       const examDoc = doc(db, 'exams', editingId);
@@ -185,6 +189,18 @@ const ManageExams = () => {
               className="input-field"
             />
           </div>
+          <div className="form-group">
+              <label className="points-label">Set Passing Score (%)</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                placeholder="e.g. 75"
+                value={passThreshold}
+                onChange={(e) => setPassThreshold(Number(e.target.value))}
+                className="points-input"
+              />
+            </div>
 
           <h2 className="question-header">Add Questions</h2>
           <div className="form-group">

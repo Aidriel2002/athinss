@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "athens-db"
-  }
+    "default": "athens-db",
+    "onlineexam": "athinsonline",
+    "online": "athens-db"
+  },
+  "targets": {},
+  "etags": {}
 }

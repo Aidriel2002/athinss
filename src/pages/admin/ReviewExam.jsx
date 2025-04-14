@@ -16,6 +16,7 @@ const ReviewExam = () => {
   const [loading, setLoading] = useState(true);
   const [openReview, setOpenReview] = useState(null);
 
+  // Fetch onReview exams
   useEffect(() => {
     const fetchOnReviewExams = async () => {
       try {
@@ -34,6 +35,7 @@ const ReviewExam = () => {
             return {
               id: docSnap.id,
               ...data,
+              examName: examData.title || 'Untitled Exam', // Ensure examName is included
               questions,
               answers,
               essayScores,
@@ -52,6 +54,21 @@ const ReviewExam = () => {
     fetchOnReviewExams();
   }, []);
 
+  // Handle score change for essay questions
+  const handleScoreChange = (e, review, qIndex, questionPoints) => {
+    const inputValue = parseFloat(e.target.value);
+    const clampedValue = Math.min(Math.max(0, inputValue), questionPoints);
+
+    // Update the essayScores array for the specific review
+    const updatedScores = [...review.essayScores];
+    updatedScores[qIndex] = clampedValue;
+
+    setReviews(reviews.map((r) =>
+      r.id === review.id ? { ...r, essayScores: updatedScores } : r
+    ));
+  };
+
+  // Handle approval (confirming the exam)
   const handleApprove = async (review) => {
     try {
       const { id, essayScores = [], score = 0, questions, ...rest } = review;
@@ -76,7 +93,12 @@ const ReviewExam = () => {
 
       await addDoc(collection(db, 'examResults'), dataToSave);
       await deleteDoc(doc(db, 'onReview', id));
+
+      // Remove the reviewed exam from the state
       setReviews(reviews.filter((item) => item.id !== id));
+      
+      // Close the modal and notify the user
+      setOpenReview(null);
       alert('Exam updated!');
     } catch (error) {
       console.error('Error updating review:', error);
@@ -84,6 +106,7 @@ const ReviewExam = () => {
     }
   };
 
+  // Toggle the review details modal
   const toggleReviewDetails = (id) => {
     setOpenReview(openReview === id ? null : id);
   };
@@ -105,7 +128,7 @@ const ReviewExam = () => {
                   className="admin-review-exam-name"
                   onClick={() => toggleReviewDetails(review.id)}
                 >
-                  {index + 1}. {review.email}
+                  {index + 1}. {review.fullname}
                 </h3>
 
                 {openReview === review.id && (
@@ -144,18 +167,8 @@ const ReviewExam = () => {
                                       min="0"
                                       max={question.points}
                                       placeholder="Score for Essay"
-                                      value={review.essayScores?.[qIndex] || 0}
-                                      onChange={(e) => {
-                                        const inputValue = parseFloat(e.target.value);
-                                        const clampedValue = Math.min(Math.max(0, inputValue), question.points);
-
-                                        const updatedScores = [...review.essayScores];
-                                        updatedScores[qIndex] = clampedValue;
-
-                                        setReviews(reviews.map(r =>
-                                          r.id === review.id ? { ...r, essayScores: updatedScores } : r
-                                        ));
-                                      }}
+                                      value={review.essayScores?.[qIndex] || 0} // Ensure value is correct
+                                      onChange={(e) => handleScoreChange(e, review, qIndex, question.points)} // Update on change
                                     />
                                   </div>
                                 </>
@@ -169,7 +182,7 @@ const ReviewExam = () => {
 
                       <button
                         className="admin-review-exam-button"
-                        onClick={() => handleApprove(review)}
+                        onClick={() => handleApprove(review)} // Confirm button functionality
                       >
                         Confirm
                       </button>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../services/firebase';
-import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import AdminNav from '../../components/nav/AdminNav';
 import { handleLogout } from '../../auth/Logout';
@@ -17,9 +23,19 @@ const ReviewResult = () => {
     const fetchResults = async () => {
       try {
         const resultSnapshot = await getDocs(collection(db, 'examResults'));
-        const resultList = resultSnapshot.docs.map((docSnap) => {
-          return { id: docSnap.id, ...docSnap.data() };
-        });
+        const resultList = await Promise.all(
+          resultSnapshot.docs.map(async (docSnap) => {
+            const data = docSnap.data();
+            const examRef = doc(db, 'exams', data.examId);
+            const examSnap = await getDoc(examRef);
+            const examData = examSnap.exists() ? examSnap.data() : null;
+            return {
+              id: docSnap.id,
+              ...data,
+              exam: examData,
+            };
+          })
+        );
         setResults(resultList);
       } catch (error) {
         console.error('Error fetching results:', error);
@@ -64,13 +80,19 @@ const ReviewResult = () => {
   };
 
   const getAnswerColor = (index, selectedAnswer, correctAnswer) => {
-    if (selectedAnswer === undefined || selectedAnswer === null || selectedAnswer === '') {
+    if (
+      selectedAnswer === undefined ||
+      selectedAnswer === null ||
+      selectedAnswer === ''
+    ) {
       return 'gray'; // For unanswered questions
     }
     if (correctAnswer === undefined || correctAnswer === null) {
       return 'gray'; // If there's no correct answer
     }
-    return selectedAnswer.toLowerCase() === correctAnswer.toLowerCase() ? 'green' : 'red'; // Correct or Incorrect
+    return selectedAnswer.toLowerCase() === correctAnswer.toLowerCase()
+      ? 'green'
+      : 'red'; // Correct or Incorrect
   };
 
   return (
@@ -85,9 +107,9 @@ const ReviewResult = () => {
         {results.map((result) => {
           const score = Number(result.score);
           const totalPoints = Number(result.totalPoints);
-          const passThreshold = totalPoints * 0.60;
-          const status = score >= passThreshold ? 'Passed' : 'Failed';
-          const statusClass = score >= passThreshold ? 'passed' : 'failed';
+          const passThreshold = result.exam?.passThreshold ?? 70;
+          const status = (score / totalPoints) * 100 >= passThreshold ? 'Passed' : 'Failed';
+          const statusClass = status === 'Passed' ? 'passed' : 'failed';
 
           return (
             <li key={result.id} className={`result-item ${statusClass}`}>
@@ -119,7 +141,9 @@ const ReviewResult = () => {
                 <p><strong>Score:</strong> {selectedResult.score}/{selectedResult.totalPoints}</p>
                 <p>
                   <strong>Status:</strong>{' '}
-                  {selectedResult.score >= (selectedResult.totalPoints * 0.60) ? 'Passed' : 'Failed'}
+                  {(selectedResult.score / selectedResult.totalPoints) * 100 >= (examDetails?.passThreshold ?? 70)
+                    ? 'Passed'
+                    : 'Failed'}
                 </p>
 
                 {examDetails ? (
@@ -132,7 +156,11 @@ const ReviewResult = () => {
                       {examDetails.questions.map((question, index) => {
                         const selectedAnswer = selectedResult.answers[index];
                         const correctAnswer = question.correctAnswer;
-                        const answerColor = getAnswerColor(index, selectedAnswer, correctAnswer);
+                        const answerColor = getAnswerColor(
+                          index,
+                          selectedAnswer,
+                          correctAnswer
+                        );
 
                         return (
                           <li key={index}>

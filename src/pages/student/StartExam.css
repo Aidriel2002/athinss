@@ -3,8 +3,8 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 240px; /* Adds 240px left margin to the exam container */
-  width: calc(100% - 240px); /* Adjust width to account for left margin */
+  margin-left: 270px; /* Adds 240px left margin to the exam container */
+  width: calc(100% - 270px); /* Adjust width to account for left margin */
   max-height: 90vh; /* Set a max height relative to viewport height */
   overflow-y: auto; /* Enable vertical scrolling */
 }

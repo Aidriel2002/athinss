@@ -4,11 +4,14 @@ import { db, auth } from '../../services/firebase';
 import { doc, getDoc, collection, addDoc, getDocs, query, where, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import './StartExam.css';
+import StudentNav from '../../components/nav/StudentNav';
 
 const StartExam = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [exam, setExam] = useState(null);
+  const [examTitle, setExamTitle] = useState('');
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -19,18 +22,72 @@ const StartExam = () => {
   const [uid, setUid] = useState('');
   const [userStatus, setUserStatus] = useState('pending');
   const [isFinalized, setIsFinalized] = useState(false);
+  const [fullname, setFullname] = useState('');
 
   useEffect(() => {
+    const fetchUserProfile = async (userId) => {
+      const userDocRef = doc(db, 'users', userId);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        const name = `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        setFullname(name);
+      }
+    };
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setEmail(user.email);
         setUid(user.uid);
+        fetchUserProfile(user.uid);
       } else {
         navigate('/login');
       }
     });
+
     return () => unsubscribe();
   }, [navigate]);
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      if (email) {
+        const userQuery = query(
+          collection(db, 'examUsers'),
+          where('email', '==', email),
+          where('examId', '==', id)
+        );
+        const userSnapshot = await getDocs(userQuery);
+
+        if (!userSnapshot.empty) {
+          const userData = userSnapshot.docs[0].data();
+          setUserStatus(userData.status);
+        } else {
+          setUserStatus('pending');
+        }
+      }
+    };
+
+    checkUserStatus();
+  }, [email, id]);
+
+  useEffect(() => {
+    const fetchExam = async () => {
+      const examRef = doc(db, 'exams', id);
+      const examSnap = await getDoc(examRef);
+
+      if (examSnap.exists()) {
+        const data = examSnap.data();
+        setExam(data);
+        setExamTitle(data.title || 'Untitled Exam');
+      } else {
+        console.log('No such exam found!');
+        setExam({});
+        setExamTitle('Exam Not Found');
+      }
+    };
+
+    fetchExam();
+  }, [id]);
 
   useEffect(() => {
     const checkIfTaken = async () => {
@@ -71,81 +128,42 @@ const StartExam = () => {
     checkIfTaken();
   }, [id, email, userStatus]);
 
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      if (email) {
-        const userQuery = query(
-          collection(db, 'examUsers'),
-          where('email', '==', email),
-          where('examId', '==', id)
-        );
-        const userSnapshot = await getDocs(userQuery);
-
-        if (!userSnapshot.empty) {
-          const userData = userSnapshot.docs[0].data();
-          setUserStatus(userData.status);
-        } else {
-          setUserStatus('pending');
-        }
-      }
-    };
-
-    checkUserStatus();
-  }, [email, id]);
-
-  useEffect(() => {
-    const fetchExam = async () => {
-      const examDoc = await getDoc(doc(db, 'exams', id));
-      if (examDoc.exists()) {
-        const examData = examDoc.data();
-        if (examData.questions && Array.isArray(examData.questions)) {
-          setExam(examData);
-        } else {
-          console.log('No valid questions found.');
-          setExam({});
-        }
-      } else {
-        console.log('No such exam!');
-        setExam({});
-      }
-    };
-
-    fetchExam();
-  }, [id]);
-
   const handleSubmit = async () => {
     if (examTaken) {
       alert('You have already taken this exam. You can only review it.');
       return;
     }
 
-    let calculatedTotalPoints = 0;
     let nonEssayScore = 0;
+    let calculatedTotalPoints = 0;
     let hasEssay = false;
-
+    
+    // Loop through all questions to calculate total points and score
     exam?.questions?.forEach((q, index) => {
       const points = q.points || 1;
+      
+      // Always add points to the total points
       calculatedTotalPoints += points;
-
+    
       const userAnswer = answers[index]?.toLowerCase?.() || '';
       const correctAnswer = q.correctAnswer?.toLowerCase?.() || '';
-
+    
+      // If the question is an essay, set flag
       if (q.type === 'essay') {
         hasEssay = true;
-      } else {
-        if (userAnswer === correctAnswer) {
-          nonEssayScore += points;
-        }
+      } else if (userAnswer !== '' && userAnswer === correctAnswer) {
+        // For non-essay questions, award points if the answer is correct
+        nonEssayScore += points;
       }
     });
-
-    setScore(nonEssayScore);
-    setTotalPoints(calculatedTotalPoints);
-    setSubmitted(true);
-
+    
+    setScore(nonEssayScore); // Only set score for non-essay correct answers
+    setTotalPoints(calculatedTotalPoints); // Set total points for all questions
+    
     const resultData = {
       uid,
       email,
+      fullname,
       examId: id,
       score: nonEssayScore,
       essayStatus: hasEssay ? 'on-review' : 'none',
@@ -209,8 +227,11 @@ const StartExam = () => {
   }
 
   return (
+    <>
+    <StudentNav />
+ 
     <div className="student-start-exam-container">
-      <h2 className="student-start-exam-title">{exam.title}</h2>
+      <h2 className="student-start-exam-title">{examTitle}</h2>
       <p className="student-start-exam-subtitle">{exam.description}</p>
       <div className="student-start-exam-divider"></div>
 
@@ -228,35 +249,28 @@ const StartExam = () => {
                 </h4>
                 {question.type === 'multiple-choice' ? (
                   <div className="student-start-exam-radio-group">
-                    {Array.isArray(question.choices) &&
-                      question.choices.map((choice, choiceIndex) => (
-                        <label key={choiceIndex} className="student-start-exam-radio-option">
-                          <input
-                            type="radio"
-                            name={`question-${index}`}
-                            value={choice}
-                            checked={answers[index] === choice}
-                            onChange={(e) =>
-                              setAnswers({
-                                ...answers,
-                                [index]: e.target.value,
-                              })
-                            }
-                            disabled={examTaken}
-                          />
-                          {choice}
-                        </label>
-                      ))}
+                    {question.choices?.map((choice, choiceIndex) => (
+                      <label key={choiceIndex} className="student-start-exam-radio-option">
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value={choice}
+                          checked={answers[index] === choice}
+                          onChange={(e) =>
+                            setAnswers({ ...answers, [index]: e.target.value })
+                          }
+                          disabled={examTaken}
+                        />
+                        {choice}
+                      </label>
+                    ))}
                   </div>
                 ) : question.type === 'essay' ? (
                   <div className="student-start-exam-essay-container">
                     <textarea
                       value={answers[index] || ''}
                       onChange={(e) =>
-                        setAnswers({
-                          ...answers,
-                          [index]: e.target.value,
-                        })
+                        setAnswers({ ...answers, [index]: e.target.value })
                       }
                       disabled={examTaken}
                       placeholder="Write your essay answer here..."
@@ -268,10 +282,7 @@ const StartExam = () => {
                       type="text"
                       value={answers[index] || ''}
                       onChange={(e) =>
-                        setAnswers({
-                          ...answers,
-                          [index]: e.target.value,
-                        })
+                        setAnswers({ ...answers, [index]: e.target.value })
                       }
                       disabled={examTaken}
                       placeholder="Type your answer here..."
@@ -290,13 +301,9 @@ const StartExam = () => {
         <div>
           <h3>
             {exam?.questions.some((q) => q.type === 'essay') && !isFinalized ? (
-              <span>
-                Partial Score: {score} / {totalPoints}
-              </span>
+              <>Partial Score: {score} / {totalPoints}</>
             ) : (
-              <span>
-                Your Final Score: {score} / {totalPoints}
-              </span>
+              <>Your Final Score: {score} / {totalPoints}</>
             )}
           </h3>
           <button className="student-start-exam-button student-start-exam-button-secondary" onClick={handleBackToExams}>
@@ -313,6 +320,7 @@ const StartExam = () => {
         </button>
       )}
     </div>
+    </>
   );
 };
 

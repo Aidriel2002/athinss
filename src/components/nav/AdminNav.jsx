@@ -58,11 +58,16 @@ const AdminNav = () => {
             <span className="nav-text">Review Exam</span>
           </button>
         </li>
-        {/* New Register Staff menu */}
         <li className={`nav-item ${activeNav === '/register-staff' ? 'active' : ''}`}>
           <button className="nav-button" onClick={() => navigate('/register-staff')}>
             <i className="nav-icon staff-icon"></i>
             <span className="nav-text">Register Staff</span>
+          </button>
+        </li>
+        <li className={`nav-item ${activeNav === '/admin-account' ? 'active' : ''}`}>
+          <button className="nav-button" onClick={() => navigate('/admin-account')}>
+            <i className="nav-icon account-icon"></i>
+            <span className="nav-text">Manage Account</span>
           </button>
         </li>
       </ul>

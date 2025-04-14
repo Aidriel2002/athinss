@@ -14,6 +14,7 @@ import ManageAccount from './pages/student/ManageAccount';
 import ProtectedRoute from './components/ProtectedRoute';
 import ReviewExam from './pages/admin/ReviewExam';
 import RegisterStaff from './pages/admin/RegisterStaff';
+import AdminAccount from './pages/admin/AdminAccount';
 
 const App = () => {
   return (
@@ -83,6 +84,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <RegisterStaff />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/admin-account"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminAccount />
             </ProtectedRoute>
           }
         />

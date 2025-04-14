@@ -4,12 +4,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDri93DHUUYzJgj0N3lKWimCI5w_LR1Rm4",
-  authDomain: "athens-db.firebaseapp.com",
-  projectId: "athens-db",
-  storageBucket: "athens-db.firebasestorage.app",
-  messagingSenderId: "823309041696",
-  appId: "1:823309041696:web:b112bbae9a4f8949613c45"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 const app = initializeApp(firebaseConfig);
